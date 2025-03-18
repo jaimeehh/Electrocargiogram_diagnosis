@@ -1,0 +1,54 @@
+# 📌 Importar librerías necesarias
+import pandas as pd
+import os
+import glob
+import numpy as np
+import scipy.signal as sc
+import matplotlib.pyplot as plt
+from IPython.display import display, clear_output
+
+# 📂 Definir rutas a los datos (Google Drive)
+training_path = "/content/drive/My Drive/PSF/Training"
+test_path = "/content/drive/My Drive/PSF/Test"
+csv_path = "/content/drive/My Drive/PSF/training_v2.csv"
+
+print(f"📁 Ruta de entrenamiento: {training_path}")
+print(f"📁 Ruta de test: {test_path}")
+print(f"📄 Archivo CSV: {csv_path}")
+
+# ✅ Verificar si las rutas existen
+if not os.path.exists(training_path) or not os.path.exists(test_path) or not os.path.exists(csv_path):
+    print("❌ Error: Una o más rutas de datos no existen. Revisa la conexión con Google Drive.")
+else:
+    print("✅ Todas las rutas de datos existen.")
+
+# 📜 Cargar archivo CSV
+try:
+    training_csv = pd.read_csv(csv_path)
+    print("✅ Archivo CSV cargado correctamente.")
+except Exception as e:
+    print(f"❌ Error al cargar el archivo CSV: {e}")
+
+# 🔍 Exploración inicial de los datos
+print("\n🔹 Primeras filas del dataset:")
+display(training_csv.head())
+
+print("\n📊 Información general:")
+display(training_csv.info())
+
+print("\n🔺 Valores nulos por columna:")
+display(training_csv.isnull().sum())
+
+# 🚀 Preprocesamiento de datos
+# Rellenar valores nulos con la mediana
+training_csv.fillna(training_csv.median(), inplace=True)
+
+# Convertir a tipo numérico si es necesario
+for col in training_csv.columns:
+    if training_csv[col].dtype == "object":
+        training_csv[col] = pd.to_numeric(training_csv[col], errors='coerce')
+
+# Guardar los datos procesados
+processed_path = "/content/drive/My Drive/PSF/training_v2_clean.csv"
+training_csv.to_csv(processed_path, index=False)
+print(f"✅ Datos preprocesados y guardados en {processed_path}")

@@ -1,0 +1,54 @@
+# 📌 06_final_predictions.ipynb
+# Objetivo: Generar predicciones finales y exportar resultados
+
+import numpy as np
+import pandas as pd
+import joblib
+from sklearn.naive_bayes import GaussianNB
+
+# 📂 Cargar características extraídas y modelo entrenado
+features_path = "/content/drive/My Drive/PSF/training_features.csv"
+model_path = "/content/drive/My Drive/PSF/final_model.pkl"
+output_predictions = "/content/drive/My Drive/PSF/final_predictions.csv"
+
+df = pd.read_csv(features_path)
+model = joblib.load(model_path)
+print("✅ Características y modelo cargados correctamente.")
+
+# 🚀 Generar predicciones
+y_pred = model.predict(df)
+
+# 📊 Guardar predicciones
+predictions_df = pd.DataFrame(y_pred, columns=["Prediction"])
+predictions_df.to_csv(output_predictions, index=False)
+print(f"✅ Predicciones finales guardadas en {output_predictions}")
+
+# 📌 Mostrar primeras predicciones
+display(predictions_df.head())
+
+# 📌 Bayesian rule of decision: Naïve Bayes
+# En este notebook desarrollamos un detector de Naïve Bayes para trabajar en el Challenge.
+# Naïve Bayes es un detector Bayesiano MAP que asume independencia en las características.
+
+# ✅ Cálculo de probabilidades a priori para cada categoría
+P_h0 = np.mean(df['target'] == 0)
+P_h1 = np.mean(df['target'] == 1)
+print('P_h0:', P_h0, '; P_h1:', P_h1)
+
+# 🚀 Implementación del clasificador Naïve Bayes
+gnb = GaussianNB()
+gnb.fit(df.drop(columns=['target']), df['target'])
+
+# 🔍 Reemplazar valores NaN en los datos de entrada
+X_modificado = []
+for sublista in df.drop(columns=['target']).values:
+    sublista_modificada = np.nan_to_num(sublista)
+    X_modificado.append(sublista_modificada)
+X_modificado = np.array(X_modificado)
+
+# 📊 Generar predicciones con Naïve Bayes
+y_pred_nb = gnb.predict(X_modificado)
+predictions_nb_df = pd.DataFrame(y_pred_nb, columns=["NB_Prediction"])
+predictions_nb_df.to_csv("/content/drive/My Drive/PSF/final_predictions_nb.csv", index=False)
+
+print("✅ Predicciones con Naïve Bayes guardadas correctamente.")

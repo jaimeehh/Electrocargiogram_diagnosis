@@ -1,0 +1,62 @@
+# 📌 03_model_training.ipynb
+# Objetivo: Procesar la señal de ECG y extraer picos R para la segmentación
+
+import numpy as np
+import matplotlib.pyplot as plt
+import neurokit2 as nk
+import wfdb
+
+# 📂 Definir la ruta de los datos
+training_path = "/content/drive/My Drive/PSF/Training"
+
+# ✅ Cargar la señal de ECG
+r_a, _ = wfdb.rdsamp(training_path+'/0006')
+
+# 🔹 Procesar la señal de ECG
+beats = []
+ecg_signal = r_a.flatten()
+
+# 📊 Procesar la señal para detectar picos R
+signals, info = nk.ecg_process(ecg_signal, sampling_rate=300)
+
+# 🔍 Visualizar la señal procesada
+nk.ecg_plot(signals, info)
+
+# 📌 Segmentar la señal ECG en latidos
+segmented_ecg = nk.ecg_segment(signals['ECG_Clean'], rpeaks=None, sampling_rate=300)
+
+# 📌 Acumular segmentos
+for i in segmented_ecg.keys():
+    beats.append(segmented_ecg[i]['Signal'])
+
+beats_ecg = np.array(beats)
+
+# 📊 Visualización de los latidos
+plt.figure()
+plt.plot(beats_ecg.T, color=[0.5, 0.5, 0.5], linewidth=0.5)
+plt.plot(np.nanmean(beats_ecg, axis=0), linewidth=2, color='k')
+plt.title('Valores de cada latido en la señal de ECG')
+plt.show()
+
+# ✅ Cargar otra señal de ECG para más análisis
+r_a, _ = wfdb.rdsamp(training_path+'/0003')
+ecg_signal = r_a.flatten()
+
+# 📊 Procesar la señal para detectar picos R
+signals, info = nk.ecg_process(ecg_signal, sampling_rate=300)
+q_peaks = info['ECG_Q_Peaks']
+
+# 🔹 Filtrar picos sin valores NaN
+lista_sin_nan = [x for x in q_peaks if not np.isnan(x)]
+
+# 📌 Extraer segmentos alrededor de los picos Q
+vacio = []
+for q in lista_sin_nan:
+    vacio.append(ecg_signal[int(q) - 35: int(q)])
+
+# 📊 Visualizar las ondas P
+fig, ax = plt.subplots()
+for arr in vacio:
+    ax.plot(arr)
+ax.set_title('Ondas P')
+plt.show()

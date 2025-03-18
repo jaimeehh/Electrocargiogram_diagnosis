@@ -1,0 +1,14 @@
+# 📌 requirements.txt
+# Dependencias necesarias para ejecutar el proyecto
+
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+scikit-learn
+joblib
+wfdb
+neurokit2
+jupyter
+

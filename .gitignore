@@ -1,0 +1,33 @@
+# 📌 .gitignore
+# Archivos y carpetas a excluir del control de versiones en Git
+
+# Directorios de entorno virtual
+env/
+venv/
+
+# Archivos temporales de Jupyter Notebook
+.ipynb_checkpoints/
+
+# Archivos generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de caché de Jupyter
+.jupyter/
+
+# Archivos de logs y depuración
+*.log
+
+# Archivos de datos de entrenamiento y predicciones
+data/raw/
+data/processed/
+*.csv
+*.sqlite
+*.h5
+*.mat
+
+# Configuración de VS Code
+.vscode/
+

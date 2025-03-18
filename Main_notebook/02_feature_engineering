@@ -1,0 +1,49 @@
+# 📌 02_feature_engineering.ipynb
+# Objetivo: Extraer y seleccionar características relevantes de las señales ECG
+
+import pandas as pd
+import numpy as np
+import scipy.signal as sc
+import matplotlib.pyplot as plt
+
+# 📂 Cargar datos preprocesados
+processed_path = "/content/drive/My Drive/PSF/training_v2_clean.csv"
+df = pd.read_csv(processed_path)
+print("✅ Datos cargados correctamente para ingeniería de características.")
+
+# 🔹 Definir funciones para extracción de características
+def compute_mean(signal):
+    return np.mean(signal)
+
+def compute_std(signal):
+    return np.std(signal)
+
+def compute_median(signal):
+    return np.median(signal)
+
+def compute_max(signal):
+    return np.max(signal)
+
+def compute_min(signal):
+    return np.min(signal)
+
+def compute_bandpower(signal, fs=300):
+    f, Pxx = sc.welch(signal, fs=fs)
+    return np.sum(Pxx)
+
+# 🔍 Aplicar funciones de características sobre las señales ECG
+feature_df = pd.DataFrame()
+feature_df['mean'] = df.iloc[:, 1:].apply(compute_mean, axis=1)
+feature_df['std'] = df.iloc[:, 1:].apply(compute_std, axis=1)
+feature_df['median'] = df.iloc[:, 1:].apply(compute_median, axis=1)
+feature_df['max'] = df.iloc[:, 1:].apply(compute_max, axis=1)
+feature_df['min'] = df.iloc[:, 1:].apply(compute_min, axis=1)
+feature_df['bandpower'] = df.iloc[:, 1:].apply(compute_bandpower, axis=1)
+
+# 📊 Visualizar primeras filas del nuevo dataset con características
+display(feature_df.head())
+
+# 🚀 Guardar características extraídas
+features_path = "/content/drive/My Drive/PSF/training_features.csv"
+feature_df.to_csv(features_path, index=False)
+print(f"✅ Características extraídas y guardadas en {features_path}")

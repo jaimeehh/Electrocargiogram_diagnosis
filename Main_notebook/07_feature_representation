@@ -1,0 +1,49 @@
+# 📌 07_feature_representation.ipynb
+# Objetivo: Visualizar las características extraídas del ECG y su relación con la variable objetivo
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 📂 Cargar datos
+features_path = "/content/drive/My Drive/PSF/training_features.csv"
+df = pd.read_csv(features_path)
+print("✅ Características cargadas correctamente.")
+
+# 📌 Definir nombres de columnas
+column_names = ["mediana_intervalo", "rr_average", "moda_intervalo", "rango_rr", "Q1_rr", "Q3", "skewness_rr", "kurtosis_rr", "entropia", "elemento_en_posicion_2", "elemento_en_posicion_1", "elemento_en_posicion_3", "log_ct_drddc", "cv"]
+df.columns = column_names + ["target"]
+
+# 📊 Boxplot de rr_average según la variable objetivo
+plt.figure(figsize=(8, 6))
+sns.boxplot(data=df, x='target', y='rr_average', width=0.5)
+plt.xlabel('Target', fontsize=14)
+plt.ylabel('rr_average', fontsize=14)
+plt.title('Boxplot de rr_average según la variable de destino', fontsize=16)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.tight_layout()
+plt.show()
+
+# 📊 Histogramas de rr_average por clase
+plt.figure(figsize=(8, 6))
+sns.histplot(data=df[df['target'] == 0], x='rr_average', color='skyblue', label='y_train = 0', kde=True)
+sns.histplot(data=df[df['target'] == 1], x='rr_average', color='salmon', label='y_train = 1', kde=True)
+
+plt.xlabel('rr_average', fontsize=14)
+plt.ylabel('Frecuencia', fontsize=14)
+plt.title('Histograma de rr_average según la variable de destino', fontsize=16)
+plt.legend(fontsize=12)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.tight_layout()
+plt.show()
+
+# 📊 Mapa de calor de correlaciones entre características
+plt.figure(figsize=(10,8))
+sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title("Mapa de Calor de Correlaciones entre Características")
+plt.show()
+
+print("✅ Representación de características completada.")

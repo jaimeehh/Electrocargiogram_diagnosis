@@ -1,0 +1,41 @@
+# 📌 feature_engineering.py
+# Funciones de extracción de características de ECG
+
+import numpy as np
+import pandas as pd
+import scipy.signal as sc
+
+def compute_mean(signal):
+    return np.mean(signal)
+
+def compute_std(signal):
+    return np.std(signal)
+
+def compute_median(signal):
+    return np.median(signal)
+
+def compute_max(signal):
+    return np.max(signal)
+
+def compute_min(signal):
+    return np.min(signal)
+
+def compute_bandpower(signal, fs=300):
+    f, Pxx = sc.welch(signal, fs=fs)
+    return np.sum(Pxx)
+
+def extract_features(df):
+    """Extrae características de las señales ECG almacenadas en un DataFrame."""
+    feature_df = pd.DataFrame()
+    feature_df['mean'] = df.apply(compute_mean, axis=1)
+    feature_df['std'] = df.apply(compute_std, axis=1)
+    feature_df['median'] = df.apply(compute_median, axis=1)
+    feature_df['max'] = df.apply(compute_max, axis=1)
+    feature_df['min'] = df.apply(compute_min, axis=1)
+    feature_df['bandpower'] = df.apply(compute_bandpower, axis=1)
+    print("✅ Características extraídas correctamente.")
+    return feature_df
+
+# Ejemplo de uso:
+# df = load_data("/content/drive/My Drive/PSF/training_features.csv")
+# df_features = extract_features(df)

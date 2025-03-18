@@ -1,0 +1,41 @@
+# 📌 04_evaluation.ipynb
+# Objetivo: Evaluar el rendimiento del modelo utilizando métricas de clasificación
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import seaborn as sns
+
+# 📂 Cargar predicciones y etiquetas reales
+predictions_path = "/content/drive/My Drive/PSF/model_predictions.csv"
+labels_path = "/content/drive/My Drive/PSF/true_labels.csv"
+
+y_pred = pd.read_csv(predictions_path)
+y_true = pd.read_csv(labels_path)
+
+print("✅ Predicciones y etiquetas cargadas correctamente.")
+
+# 📊 Evaluación del modelo
+accuracy = accuracy_score(y_true, y_pred)
+print(f"🔹 Precisión del modelo: {accuracy:.4f}")
+
+# 📌 Matriz de confusión
+conf_matrix = confusion_matrix(y_true, y_pred)
+plt.figure(figsize=(6,6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['AF', 'NSR'], yticklabels=['AF', 'NSR'])
+plt.xlabel("Predicción")
+plt.ylabel("Real")
+plt.title("Matriz de Confusión")
+plt.show()
+
+# 📜 Reporte de clasificación
+report = classification_report(y_true, y_pred, target_names=["Atrial Fibrillation", "Normal Sinus Rhythm"])
+print("📄 Reporte de Clasificación:")
+print(report)
+
+# 🚀 Guardar resultados
+evaluation_results_path = "/content/drive/My Drive/PSF/evaluation_results.txt"
+with open(evaluation_results_path, "w") as f:
+    f.write(report)
+print(f"✅ Resultados de evaluación guardados en {evaluation_results_path}")

@@ -1,0 +1,18 @@
+# 📌 data_loader.py
+# Función para cargar los datos de ECG desde archivos CSV
+
+import pandas as pd
+import os
+
+def load_data(file_path):
+    """Carga un archivo CSV y lo devuelve como un DataFrame."""
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path)
+        print(f"✅ Datos cargados correctamente desde {file_path}")
+        return df
+    else:
+        print(f"❌ Error: No se encontró el archivo {file_path}")
+        return None
+
+# Ejemplo de uso:
+# df = load_data("/content/drive/My Drive/PSF/training_features.csv")

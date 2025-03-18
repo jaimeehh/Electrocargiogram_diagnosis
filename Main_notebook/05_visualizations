@@ -1,0 +1,35 @@
+# 📌 05_visualizations.ipynb
+# Objetivo: Visualizar los resultados del análisis y las características del ECG
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 📂 Cargar datos
+features_path = "/content/drive/My Drive/PSF/training_features.csv"
+df = pd.read_csv(features_path)
+print("✅ Características cargadas correctamente.")
+
+# 🔹 Histograma de características clave
+plt.figure(figsize=(12,6))
+df.hist(bins=30, figsize=(12, 10), layout=(3,3))
+plt.suptitle("Distribución de Características")
+plt.show()
+
+# 📊 Mapa de calor de correlaciones
+plt.figure(figsize=(10,8))
+sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title("Mapa de Calor de Correlaciones entre Características")
+plt.show()
+
+# 🚀 Visualización de la señal de ECG de un ejemplo aleatorio
+sample_idx = np.random.randint(0, len(df))
+plt.figure(figsize=(10,4))
+plt.plot(df.iloc[sample_idx, :], color='b')
+plt.title(f"Ejemplo de ECG (Índice: {sample_idx})")
+plt.xlabel("Tiempo")
+plt.ylabel("Amplitud")
+plt.show()
+
+print("✅ Visualizaciones generadas correctamente.")

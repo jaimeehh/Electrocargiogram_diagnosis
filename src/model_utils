@@ -1,0 +1,41 @@
+# 📌 model_utils.py
+# Funciones para el entrenamiento y evaluación de modelos
+
+import numpy as np
+import pandas as pd
+import joblib
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def train_naive_bayes(X_train, y_train):
+    """Entrena un modelo Naïve Bayes y lo guarda en un archivo."""
+    model = GaussianNB()
+    model.fit(X_train, y_train)
+    joblib.dump(model, "final_model.pkl")
+    print("✅ Modelo Naïve Bayes entrenado y guardado como final_model.pkl")
+    return model
+
+def evaluate_model(model, X_test, y_test):
+    """Evalúa el modelo Naïve Bayes y muestra métricas clave."""
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"🔹 Precisión del modelo: {accuracy:.4f}")
+    print("📄 Reporte de Clasificación:")
+    print(classification_report(y_test, y_pred))
+    
+    # 📊 Matriz de confusión
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    plt.figure(figsize=(6,6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['Clase 0', 'Clase 1'], yticklabels=['Clase 0', 'Clase 1'])
+    plt.xlabel("Predicción")
+    plt.ylabel("Real")
+    plt.title("Matriz de Confusión")
+    plt.show()
+    
+    return accuracy
+
+# Ejemplo de uso:
+# model = train_naive_bayes(X_train, y_train)
+# evaluate_model(model, X_test, y_test)
