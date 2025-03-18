@@ -24,7 +24,7 @@ Este repositorio contiene el notebook `Electrocargiogram_diagnosis.ipynb`, que a
 Esta obra está bajo una licencia de **Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional**.
 
 ## ℹ️ Sobre este Challenge
-El problema que queremos abordar en este Challenge es la clasificación de registros cortos de una única derivación de ECG en tres categorías diferentes:
+El problema que queremos abordar en este Challenge es la clasificación de registros cortos de una única derivación de ECG en dos categorías diferentes:
 
 1. **Fibrilación Auricular**
 2. **Ritmo Sinusal Normal**
