@@ -1,7 +1,7 @@
-# Challenge v2 23-24
+# Electrocargiogram_diagnosis
 
 ## 📌 Descripción
-Este repositorio contiene el notebook `Challengev2_23_24.ipynb`, que aborda el análisis y procesamiento de datos para el reto de la versión 2023-2024.
+Este repositorio contiene el notebook `Electrocargiogram_diagnosis.ipynb`, que aborda el análisis y procesamiento de datos para el reto de la versión 2023-2024.
 
 ## 📂 Estructura del repositorio
 - `notebooks/` → Contiene el Jupyter Notebook principal.
@@ -38,7 +38,7 @@ Los registros de ECG fueron muestreados a **300 Hz** y han sido filtrados con un
 ## 🚀 Instalación y uso
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/jaimeehh/Challengev2_23_24.git
+   git clone https://github.com/jaimeehh/Electrocargiogram_diagnosis.git
    cd Challengev2_23_24
    ```
 2. Instalar dependencias:
