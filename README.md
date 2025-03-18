@@ -39,7 +39,7 @@ Los registros de ECG fueron muestreados a **300 Hz** y han sido filtrados con un
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/jaimeehh/Electrocargiogram_diagnosis.git
-   cd Challengev2_23_24
+   cd Electrocargiogram_diagnosis
    ```
 2. Instalar dependencias:
    ```bash
