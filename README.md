@@ -38,7 +38,7 @@ Los registros de ECG fueron muestreados a **300 Hz** y han sido filtrados con un
 ## 🚀 Instalación y uso
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/tuusuario/Challengev2_23_24.git
+   git clone https://github.com/jaimeehh/Challengev2_23_24.git
    cd Challengev2_23_24
    ```
 2. Instalar dependencias:
